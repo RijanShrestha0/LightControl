@@ -3,16 +3,22 @@ import SwiftUI
 struct ContentView: View {
     @ObservedObject var bluetooth: BluetoothManager
     let lightController: LightController
+    let glowAssistant: GlowAssistantManager
+    @State private var selectedSection = AppSection.glow
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             header
             Divider()
-            HStack(spacing: 0) {
-                deviceList
-                    .frame(minWidth: 250, idealWidth: 290, maxWidth: 330)
-                Divider()
-                inspector
+            if selectedSection == .glow {
+                GlowView(assistant: glowAssistant)
+            } else {
+                HStack(spacing: 0) {
+                    deviceList
+                        .frame(minWidth: 250, idealWidth: 290, maxWidth: 330)
+                    Divider()
+                    inspector
+                }
             }
         }
         .foregroundStyle(.primary)
@@ -24,10 +30,17 @@ struct ContentView: View {
             VStack(alignment: .leading, spacing: 3) {
                 Text("iLink Controller")
                     .font(.system(size: 18, weight: .semibold))
-                Text("Bluetooth Diagnostics")
+                Text("Glow · Bluetooth Diagnostics")
                     .font(.system(size: 12))
                     .foregroundStyle(.secondary)
             }
+            Spacer()
+            Picker("Section", selection: $selectedSection) {
+                Text("Glow").tag(AppSection.glow)
+                Text("Bluetooth").tag(AppSection.bluetooth)
+            }
+            .pickerStyle(.segmented)
+            .frame(width: 190)
             Spacer()
             Circle()
                 .fill(bluetooth.bluetoothState == .poweredOn ? Color.primary : Color.secondary)
@@ -269,5 +282,10 @@ struct ContentView: View {
                 .textSelection(.enabled)
                 .fixedSize(horizontal: false, vertical: true)
         }
+    }
+
+    private enum AppSection {
+        case glow
+        case bluetooth
     }
 }

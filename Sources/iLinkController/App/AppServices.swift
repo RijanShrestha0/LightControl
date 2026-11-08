@@ -6,10 +6,12 @@ final class AppServices: ObservableObject {
 
     let bluetoothManager: BluetoothManager
     let lightController: LightController
+    let glowAssistantManager: GlowAssistantManager
 
     private init() {
         let bluetoothManager = BluetoothManager()
         self.bluetoothManager = bluetoothManager
         lightController = LightController(bluetoothManager: bluetoothManager)
+        glowAssistantManager = GlowAssistantManager()
     }
 }

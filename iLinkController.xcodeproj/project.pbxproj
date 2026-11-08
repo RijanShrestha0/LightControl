@@ -16,6 +16,11 @@
 		A10000000000000000000007 /* LightIntents.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000009 /* LightIntents.swift */; };
 		A10000000000000000000008 /* LightShortcuts.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000010 /* LightShortcuts.swift */; };
 		A10000000000000000000009 /* AppIntents.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B10000000000000000000011 /* AppIntents.framework */; };
+		A10000000000000000000010 /* GlowAssistantState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000012 /* GlowAssistantState.swift */; };
+		A10000000000000000000011 /* GlowAssistantManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000013 /* GlowAssistantManager.swift */; };
+		A10000000000000000000012 /* GlowPermissionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000014 /* GlowPermissionManager.swift */; };
+		A10000000000000000000013 /* GlowAudioCaptureManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000015 /* GlowAudioCaptureManager.swift */; };
+		A10000000000000000000014 /* GlowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000016 /* GlowView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +35,11 @@
 		B10000000000000000000009 /* LightIntents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LightIntents.swift; sourceTree = "<group>"; };
 		B10000000000000000000010 /* LightShortcuts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LightShortcuts.swift; sourceTree = "<group>"; };
 		B10000000000000000000011 /* AppIntents.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppIntents.framework; path = System/Library/Frameworks/AppIntents.framework; sourceTree = SDKROOT; };
+		B10000000000000000000012 /* GlowAssistantState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlowAssistantState.swift; sourceTree = "<group>"; };
+		B10000000000000000000013 /* GlowAssistantManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlowAssistantManager.swift; sourceTree = "<group>"; };
+		B10000000000000000000014 /* GlowPermissionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlowPermissionManager.swift; sourceTree = "<group>"; };
+		B10000000000000000000015 /* GlowAudioCaptureManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlowAudioCaptureManager.swift; sourceTree = "<group>"; };
+		B10000000000000000000016 /* GlowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlowView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -78,6 +88,7 @@
 				D10000000000000000000007 /* Views */,
 				D10000000000000000000009 /* Controllers */,
 				D10000000000000000000010 /* Siri */,
+				D10000000000000000000011 /* Glow */,
 			);
 			path = iLinkController;
 			sourceTree = "<group>";
@@ -104,8 +115,17 @@
 			isa = PBXGroup;
 			children = (
 				B10000000000000000000004 /* ContentView.swift */,
+				D10000000000000000000015 /* Glow */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		D10000000000000000000015 /* Glow */ = {
+			isa = PBXGroup;
+			children = (
+				B10000000000000000000016 /* GlowView.swift */,
+			);
+			path = Glow;
 			sourceTree = "<group>";
 		};
 		D10000000000000000000008 /* Frameworks */ = {
@@ -131,6 +151,41 @@
 				B10000000000000000000010 /* LightShortcuts.swift */,
 			);
 			path = Siri;
+			sourceTree = "<group>";
+		};
+		D10000000000000000000011 /* Glow */ = {
+			isa = PBXGroup;
+			children = (
+				D10000000000000000000012 /* Core */,
+				D10000000000000000000013 /* Audio */,
+				D10000000000000000000014 /* Permissions */,
+			);
+			path = Glow;
+			sourceTree = "<group>";
+		};
+		D10000000000000000000012 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				B10000000000000000000012 /* GlowAssistantState.swift */,
+				B10000000000000000000013 /* GlowAssistantManager.swift */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		D10000000000000000000013 /* Audio */ = {
+			isa = PBXGroup;
+			children = (
+				B10000000000000000000015 /* GlowAudioCaptureManager.swift */,
+			);
+			path = Audio;
+			sourceTree = "<group>";
+		};
+		D10000000000000000000014 /* Permissions */ = {
+			isa = PBXGroup;
+			children = (
+				B10000000000000000000014 /* GlowPermissionManager.swift */,
+			);
+			path = Permissions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -209,6 +264,11 @@
 				A10000000000000000000006 /* LightController.swift in Sources */,
 				A10000000000000000000007 /* LightIntents.swift in Sources */,
 				A10000000000000000000008 /* LightShortcuts.swift in Sources */,
+				A10000000000000000000010 /* GlowAssistantState.swift in Sources */,
+				A10000000000000000000011 /* GlowAssistantManager.swift in Sources */,
+				A10000000000000000000012 /* GlowPermissionManager.swift in Sources */,
+				A10000000000000000000013 /* GlowAudioCaptureManager.swift in Sources */,
+				A10000000000000000000014 /* GlowView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -309,6 +369,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "iLink Controller uses Bluetooth to discover and inspect nearby smart lights.";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Glow uses the microphone locally to measure audio levels while you explicitly enable it. Audio is not recorded or uploaded.";
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ilinkcontroller.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -327,6 +388,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "iLink Controller uses Bluetooth to discover and inspect nearby smart lights.";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Glow uses the microphone locally to measure audio levels while you explicitly enable it. Audio is not recorded or uploaded.";
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ilinkcontroller.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";

@@ -8,9 +8,10 @@ struct iLinkControllerApp: App {
         WindowGroup {
             ContentView(
                 bluetooth: services.bluetoothManager,
-                lightController: services.lightController
+                lightController: services.lightController,
+                glowAssistant: services.glowAssistantManager
             )
-                .frame(minWidth: 680, minHeight: 480)
+                .frame(minWidth: 720, minHeight: 560)
         }
         .windowResizability(.contentSize)
     }
