@@ -2,6 +2,30 @@ import AVFoundation
 import Combine
 import Foundation
 
+private final class GlowAudioBufferRelay {
+    private let lock = NSLock()
+    private var handler: ((AVAudioPCMBuffer) -> Void)?
+
+    var handlerSnapshot: ((AVAudioPCMBuffer) -> Void)? {
+        lock.lock()
+        defer { lock.unlock() }
+        return handler
+    }
+
+    func setHandler(_ handler: ((AVAudioPCMBuffer) -> Void)?) {
+        lock.lock()
+        self.handler = handler
+        lock.unlock()
+    }
+
+    func forward(_ buffer: AVAudioPCMBuffer) {
+        lock.lock()
+        let currentHandler = handler
+        lock.unlock()
+        currentHandler?(buffer)
+    }
+}
+
 private func normalizedLevel(from buffer: AVAudioPCMBuffer) -> Double? {
     let frameCount = Int(buffer.frameLength)
     let channelCount = Int(buffer.format.channelCount)
@@ -46,8 +70,13 @@ final class GlowAudioCaptureManager: ObservableObject {
     @Published private(set) var audioLevel = 0.0
 
     var onCaptureFailure: ((String) -> Void)?
+    var onAudioBuffer: ((AVAudioPCMBuffer) -> Void)? {
+        get { audioBufferRelay.handlerSnapshot }
+        set { audioBufferRelay.setHandler(newValue) }
+    }
 
     private let audioEngine = AVAudioEngine()
+    private let audioBufferRelay = GlowAudioBufferRelay()
     private var tapInstalled = false
     private var configurationObserver: NSObjectProtocol?
 
@@ -60,7 +89,9 @@ final class GlowAudioCaptureManager: ObservableObject {
             throw GlowAudioCaptureError.noInputAvailable
         }
 
+        let audioBufferRelay = self.audioBufferRelay
         inputNode.installTap(onBus: 0, bufferSize: 1024, format: inputFormat) { [weak self] buffer, _ in
+            audioBufferRelay.forward(buffer)
             guard let level = normalizedLevel(from: buffer) else {
                 DispatchQueue.main.async { [weak self] in
                     self?.handleCaptureFailure(GlowAudioCaptureError.unsupportedAudioFormat.localizedDescription)

@@ -21,6 +21,8 @@
 		A10000000000000000000012 /* GlowPermissionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000014 /* GlowPermissionManager.swift */; };
 		A10000000000000000000013 /* GlowAudioCaptureManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000015 /* GlowAudioCaptureManager.swift */; };
 		A10000000000000000000014 /* GlowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000016 /* GlowView.swift */; };
+		A10000000000000000000015 /* GlowSpeechRecognitionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000017 /* GlowSpeechRecognitionManager.swift */; };
+		A10000000000000000000016 /* Speech.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B10000000000000000000018 /* Speech.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,6 +42,8 @@
 		B10000000000000000000014 /* GlowPermissionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlowPermissionManager.swift; sourceTree = "<group>"; };
 		B10000000000000000000015 /* GlowAudioCaptureManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlowAudioCaptureManager.swift; sourceTree = "<group>"; };
 		B10000000000000000000016 /* GlowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlowView.swift; sourceTree = "<group>"; };
+		B10000000000000000000017 /* GlowSpeechRecognitionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlowSpeechRecognitionManager.swift; sourceTree = "<group>"; };
+		B10000000000000000000018 /* Speech.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Speech.framework; path = System/Library/Frameworks/Speech.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -48,6 +52,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A10000000000000000000009 /* AppIntents.framework in Frameworks */,
+				A10000000000000000000016 /* Speech.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -159,6 +164,7 @@
 				D10000000000000000000012 /* Core */,
 				D10000000000000000000013 /* Audio */,
 				D10000000000000000000014 /* Permissions */,
+				D10000000000000000000016 /* Speech */,
 			);
 			path = Glow;
 			sourceTree = "<group>";
@@ -186,6 +192,14 @@
 				B10000000000000000000014 /* GlowPermissionManager.swift */,
 			);
 			path = Permissions;
+			sourceTree = "<group>";
+		};
+		D10000000000000000000016 /* Speech */ = {
+			isa = PBXGroup;
+			children = (
+				B10000000000000000000017 /* GlowSpeechRecognitionManager.swift */,
+			);
+			path = Speech;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -269,6 +283,7 @@
 				A10000000000000000000012 /* GlowPermissionManager.swift in Sources */,
 				A10000000000000000000013 /* GlowAudioCaptureManager.swift in Sources */,
 				A10000000000000000000014 /* GlowView.swift in Sources */,
+				A10000000000000000000015 /* GlowSpeechRecognitionManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -370,6 +385,7 @@
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "iLink Controller uses Bluetooth to discover and inspect nearby smart lights.";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Glow uses the microphone locally to measure audio levels while you explicitly enable it. Audio is not recorded or uploaded.";
+				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "Glow uses speech recognition only when you choose Start Listening, and requires on-device recognition. Spoken words are not sent over the network.";
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ilinkcontroller.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -389,6 +405,7 @@
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "iLink Controller uses Bluetooth to discover and inspect nearby smart lights.";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Glow uses the microphone locally to measure audio levels while you explicitly enable it. Audio is not recorded or uploaded.";
+				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "Glow uses speech recognition only when you choose Start Listening, and requires on-device recognition. Spoken words are not sent over the network.";
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ilinkcontroller.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";

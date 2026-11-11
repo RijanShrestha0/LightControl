@@ -4,11 +4,13 @@ struct GlowView: View {
     @ObservedObject var assistant: GlowAssistantManager
     @ObservedObject private var permissionManager: GlowPermissionManager
     @ObservedObject private var audioCaptureManager: GlowAudioCaptureManager
+    @ObservedObject private var speechRecognitionManager: GlowSpeechRecognitionManager
 
     init(assistant: GlowAssistantManager) {
         self.assistant = assistant
         _permissionManager = ObservedObject(wrappedValue: assistant.permissionManager)
         _audioCaptureManager = ObservedObject(wrappedValue: assistant.audioCaptureManager)
+        _speechRecognitionManager = ObservedObject(wrappedValue: assistant.speechRecognitionManager)
     }
 
     var body: some View {
@@ -81,6 +83,9 @@ struct GlowView: View {
                 Label(permissionManager.statusDescription, systemImage: permissionIcon)
                     .font(.system(size: 11))
                     .foregroundStyle(.secondary)
+                Label(speechRecognitionManager.authorizationDescription, systemImage: speechPermissionIcon)
+                    .font(.system(size: 11))
+                    .foregroundStyle(.secondary)
                 if let explanation = permissionManager.permissionExplanation {
                     Text(explanation)
                         .font(.system(size: 11))
@@ -96,8 +101,85 @@ struct GlowView: View {
                         .frame(maxWidth: 360)
                         .textSelection(.enabled)
                 }
+                if let errorMessage = speechRecognitionManager.errorMessage {
+                    Text(errorMessage)
+                        .font(.system(size: 11))
+                        .foregroundStyle(.primary)
+                        .multilineTextAlignment(.center)
+                        .frame(maxWidth: 360)
+                        .textSelection(.enabled)
+                }
             }
             .padding(.top, 18)
+
+            Text(speechRecognitionManager.offlineSupportDescription)
+                .font(.system(size: 11))
+                .foregroundStyle(speechRecognitionManager.isOfflineRecognitionAvailable ? .secondary : .tertiary)
+                .multilineTextAlignment(.center)
+                .frame(maxWidth: 380)
+                .padding(.top, 8)
+
+            if speechRecognitionManager.isRecognizing {
+                Button("Stop Listening", systemImage: "stop.fill") {
+                    assistant.stopSpeechRecognition()
+                }
+                .buttonStyle(.bordered)
+                .controlSize(.regular)
+                .padding(.top, 16)
+            } else {
+                Button("Start Listening", systemImage: "waveform") {
+                    Task { await assistant.startSpeechRecognition() }
+                }
+                .buttonStyle(.bordered)
+                .controlSize(.regular)
+                .disabled(isSpeechSetupInProgress)
+                .padding(.top, 16)
+            }
+
+            VStack(alignment: .leading, spacing: 8) {
+                HStack {
+                    Text(speechRecognitionManager.isPartialResult ? "LIVE TRANSCRIPTION" : "RECOGNIZED TEXT")
+                        .font(.system(size: 10, weight: .semibold))
+                    Spacer()
+                    if !speechRecognitionManager.recognizedText.isEmpty {
+                        Button("Clear Text", systemImage: "xmark.circle") {
+                            assistant.clearRecognizedText()
+                        }
+                        .buttonStyle(.plain)
+                        .font(.system(size: 11))
+                        .foregroundStyle(.secondary)
+                    }
+                }
+                Text(speechRecognitionManager.recognizedText.isEmpty ? "Recognized speech will appear here." : speechRecognitionManager.recognizedText)
+                    .font(.system(size: 13))
+                    .foregroundStyle(speechRecognitionManager.recognizedText.isEmpty ? .secondary : .primary)
+                    .textSelection(.enabled)
+                    .frame(maxWidth: .infinity, minHeight: 40, alignment: .leading)
+                Divider()
+                HStack {
+                    Text("LOCAL COMMAND INTERPRETATION")
+                        .font(.system(size: 10, weight: .semibold))
+                    Spacer()
+                    if speechRecognitionManager.isPartialResult {
+                        Text("PROVISIONAL")
+                            .font(.system(size: 9, weight: .medium, design: .monospaced))
+                            .foregroundStyle(.secondary)
+                    }
+                }
+                Text(assistant.interpretedCommand.displayName)
+                    .font(.system(size: 12, weight: .medium))
+                Text("Interpretation only. No command is executed.")
+                    .font(.system(size: 10))
+                    .foregroundStyle(.tertiary)
+            }
+            .padding(.horizontal, 14)
+            .padding(.vertical, 12)
+            .overlay {
+                RoundedRectangle(cornerRadius: 4)
+                    .strokeBorder(Color.primary.opacity(0.12), lineWidth: 1)
+            }
+            .frame(maxWidth: 440)
+            .padding(.top, 20)
 
             Spacer(minLength: 24)
 
@@ -117,15 +199,26 @@ struct GlowView: View {
 
     private var actionTitle: String {
         switch assistant.state {
-        case .capturingAudio, .ready, .requestingPermission:
+        case .capturingAudio, .ready, .requestingPermission, .requestingSpeechPermission,
+             .checkingOfflineSupport, .recognizingSpeech:
             "Disable Glow"
-        case .disabled, .error:
+        case .disabled, .recognitionCompleted, .recognitionUnavailable, .error:
             "Enable Glow"
         }
     }
 
+    private var isSpeechSetupInProgress: Bool {
+        assistant.state == .requestingPermission
+            || assistant.state == .requestingSpeechPermission
+            || assistant.state == .checkingOfflineSupport
+    }
+
     private var permissionIcon: String {
         permissionManager.authorizationStatus == .authorized ? "checkmark.circle" : "mic.slash"
+    }
+
+    private var speechPermissionIcon: String {
+        speechRecognitionManager.authorizationStatus == .authorized ? "checkmark.circle" : "text.bubble"
     }
 
     private var stateDescription: String {
@@ -138,6 +231,16 @@ struct GlowView: View {
             "Microphone permission is available. Starting audio capture."
         case .capturingAudio:
             "Audio metering is active. Wake-word detection is not enabled in this phase."
+        case .requestingSpeechPermission:
+            "Waiting for permission to recognize speech."
+        case .checkingOfflineSupport:
+            "Checking that this locale can be recognized entirely on this Mac."
+        case .recognizingSpeech:
+            "Transcribing locally. Recognized text is not sent to Bluetooth or executed."
+        case .recognitionCompleted:
+            "Recognition stopped. You can review or clear the text above."
+        case .recognitionUnavailable:
+            "Local speech recognition is unavailable. Glow will not use network recognition."
         case .error:
             "Glow could not start or continue audio capture."
         }
