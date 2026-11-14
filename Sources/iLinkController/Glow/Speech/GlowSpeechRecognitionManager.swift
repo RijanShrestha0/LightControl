@@ -49,14 +49,6 @@ final class GlowSpeechRecognitionManager: ObservableObject {
     @discardableResult
     func checkOfflineRecognitionSupport() -> Bool {
         let locale = Locale.current
-        let languageCode = locale.identifier.split(separator: "_").first?.split(separator: "-").first.map(String.init)
-
-        guard languageCode == "en" else {
-            recognizer = nil
-            isOfflineRecognitionAvailable = false
-            offlineSupportDescription = "Offline English recognition is unavailable for system locale \(locale.identifier). Set macOS to an English locale to use Glow speech recognition."
-            return false
-        }
 
         guard let recognizer = SFSpeechRecognizer(locale: locale) else {
             self.recognizer = nil
@@ -81,7 +73,7 @@ final class GlowSpeechRecognitionManager: ObservableObject {
 
         self.recognizer = recognizer
         isOfflineRecognitionAvailable = true
-        offlineSupportDescription = "On-device English recognition available (\(locale.identifier))."
+        offlineSupportDescription = "On-device recognition available (\(locale.identifier))."
         return true
     }
 

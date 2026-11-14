@@ -23,6 +23,8 @@
 		A10000000000000000000014 /* GlowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000016 /* GlowView.swift */; };
 		A10000000000000000000015 /* GlowSpeechRecognitionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000017 /* GlowSpeechRecognitionManager.swift */; };
 		A10000000000000000000016 /* Speech.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B10000000000000000000018 /* Speech.framework */; };
+		A10000000000000000000017 /* GlowCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000019 /* GlowCommand.swift */; };
+		A10000000000000000000018 /* GlowCommandInterpreter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000020 /* GlowCommandInterpreter.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,6 +46,8 @@
 		B10000000000000000000016 /* GlowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlowView.swift; sourceTree = "<group>"; };
 		B10000000000000000000017 /* GlowSpeechRecognitionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlowSpeechRecognitionManager.swift; sourceTree = "<group>"; };
 		B10000000000000000000018 /* Speech.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Speech.framework; path = System/Library/Frameworks/Speech.framework; sourceTree = SDKROOT; };
+		B10000000000000000000019 /* GlowCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlowCommand.swift; sourceTree = "<group>"; };
+		B10000000000000000000020 /* GlowCommandInterpreter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlowCommandInterpreter.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -165,6 +169,7 @@
 				D10000000000000000000013 /* Audio */,
 				D10000000000000000000014 /* Permissions */,
 				D10000000000000000000016 /* Speech */,
+				D10000000000000000000017 /* Commands */,
 			);
 			path = Glow;
 			sourceTree = "<group>";
@@ -200,6 +205,15 @@
 				B10000000000000000000017 /* GlowSpeechRecognitionManager.swift */,
 			);
 			path = Speech;
+			sourceTree = "<group>";
+		};
+		D10000000000000000000017 /* Commands */ = {
+			isa = PBXGroup;
+			children = (
+				B10000000000000000000019 /* GlowCommand.swift */,
+				B10000000000000000000020 /* GlowCommandInterpreter.swift */,
+			);
+			path = Commands;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -284,6 +298,8 @@
 				A10000000000000000000013 /* GlowAudioCaptureManager.swift in Sources */,
 				A10000000000000000000014 /* GlowView.swift in Sources */,
 				A10000000000000000000015 /* GlowSpeechRecognitionManager.swift in Sources */,
+				A10000000000000000000017 /* GlowCommand.swift in Sources */,
+				A10000000000000000000018 /* GlowCommandInterpreter.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
